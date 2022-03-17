@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Container } from "react-bootstrap";
+import { Header } from "./components/Header";
+import { ToDo } from "./components/Todo";
+import { ITodo } from "./types/todo";
 
-function App() {
+interface Props {}
+
+export const App: React.FC<Props> = () => {
+  const todo: ITodo[] = [
+    {
+      name: "Create task",
+      description: "Todo todo",
+      author: "Oleg",
+      durationTask: new Date("2020-10-10"),
+      finishDate: new Date("2020-10-11"),
+      status: "Done",
+    },
+  ];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Container>
+        <ToDo todo={todo[0]} />
+      </Container>
     </div>
   );
-}
+};
 
 export default App;
