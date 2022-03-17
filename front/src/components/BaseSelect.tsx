@@ -12,7 +12,7 @@ export const BaseSelect: React.FC<Props> = ({ onChange, items, title }) => {
     <div className="d-flex-reverse">
     {title && <span>{title}</span>}
     <Form.Select
-      value={'12121212121212'}
+      id="selectToastPlacement"
       className="w-auto me-3"
       onChange={(e) => onChange(e)}
     >
