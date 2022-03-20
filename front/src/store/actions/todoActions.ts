@@ -32,19 +32,20 @@ export const delTodo = async (todo: ITodo[]) => {
   }
 };
 
-export const updateTodo = async(_id: string | undefined, durationTask?: string | null, status?: string | null) => {
-    try {
-    //   return async (dispatch: AppDispatch) => {
-        const todo = await Axios.put<ITodo>(`api/todo/${_id}?status=${status}&durationTask=${durationTask}`);
-        // dispatch<TodoActions>({
-        //   type: UPDATE_TODO,
-        //   payload: [todo.data],
-        // });
-    //   };
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const updateTodo = async (
+  _id: string | undefined,
+  durationTask?: string | null,
+  status?: string | null
+) => {
+  try {
+    await Axios.put<ITodo>(
+      `api/todo/${_id}?status=${status}&durationTask=${durationTask}`
+    );
+    getTodo();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 interface AxiosInstanceTodo {
   docs: [ITodo];
@@ -61,8 +62,33 @@ interface AxiosInstanceTodo {
 }
 
 export const getTodo = () => {
-  return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch) => {
     const todo = await Axios.get<AxiosInstanceTodo>("api/todo");
+    dispatch<TodoActions>({ type: GET_TODO, payload: todo.data.docs });
+  };
+};
+
+export const getTodoAuthor = (author: string) => {
+    return async (dispatch: AppDispatch) => {
+    const todo = await Axios.get<AxiosInstanceTodo>(`api/todo?author=${author}`);
+    dispatch<TodoActions>({ type: GET_TODO, payload: todo.data.docs });
+  };
+};
+export const getTodoStatus = (status: string) => {
+    return async (dispatch: AppDispatch) => {
+    const todo = await Axios.get<AxiosInstanceTodo>(`api/todo?status=${status}`);
+    dispatch<TodoActions>({ type: GET_TODO, payload: todo.data.docs });
+  };
+};
+export const getTodoDurationTask = (durationTask: string) => {
+    return async (dispatch: AppDispatch) => {
+    const todo = await Axios.get<AxiosInstanceTodo>(`api/todo?durationTask=${durationTask}`);
+    dispatch<TodoActions>({ type: GET_TODO, payload: todo.data.docs });
+  };
+};
+export const getTodoFinishDate = (finishDate: string) => {
+    return async (dispatch: AppDispatch) => {
+    const todo = await Axios.get<AxiosInstanceTodo>(`api/todo?finishDate=${finishDate}`);
     dispatch<TodoActions>({ type: GET_TODO, payload: todo.data.docs });
   };
 };

@@ -8,7 +8,7 @@ const initialState: ITodo[] = [
 const todoReducer = (state = initialState, action: TodoActions) => {
   switch (action.type) {
     case ADD_TODO:
-      return [...action.payload, ...state];
+      return [...state, ...action.payload];
     case DEL_TODO:
       return [...state.filter(todo => todo._id !== action.payload[0]._id)];
     case GET_TODO:

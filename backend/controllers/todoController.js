@@ -74,7 +74,7 @@ class TodoController {
       const query = { _id: id };
       const update = {};
       if (status) update.status = status;
-      if (status === "Выполнена") status.finishDate = new Date().toDateString();
+      if (status === "Выполнена") update.finishDate = String(new Date().toJSON().split('T')[0]);
       if (durationTask) update.durationTask = durationTask;
       const todo = await Todo.updateOne(query, update);
       return res.json(todo);

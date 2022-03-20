@@ -5,14 +5,36 @@ import Todo from "./components/Todo";
 import { ITodo } from "./types/todo";
 import { connect } from "react-redux";
 import { RootState } from "./store/store";
-import { getTodo, updateTodo } from "./store/actions/todoActions";
+import {
+  getTodo,
+  getTodoAuthor,
+  getTodoDurationTask,
+  getTodoFinishDate,
+  getTodoStatus,
+  updateTodo,
+} from "./store/actions/todoActions";
 interface Props {
   todo: ITodo[];
   getTodo: () => void;
-  updateTodo: (_id: string, durationTask?: string | null, status?: string | null) => void;
+  getTodoAuthor: (sort: string) => void;
+  getTodoStatus: (sort: string) => void;
+  getTodoDurationTask: (sort: string) => void;
+  getTodoFinishDate: (sort: string) => void;
+  updateTodo: (
+    _id: string,
+    durationTask?: string | null,
+    status?: string | null
+  ) => void;
 }
 
-export const App: React.FC<Props> = ({ todo, getTodo }) => {
+export const App: React.FC<Props> = ({
+  todo,
+  getTodo,
+  getTodoAuthor,
+  getTodoStatus,
+  getTodoDurationTask,
+  getTodoFinishDate,
+}) => {
   React.useEffect(() => {
     getTodo();
   }, []);
@@ -25,9 +47,34 @@ export const App: React.FC<Props> = ({ todo, getTodo }) => {
     updateTodo(_id, durationTask, status);
   };
 
+  const sort = (sort: string) => {
+    console.log(sort);
+
+    switch (sort) {
+      case "author":
+        getTodoAuthor(sort);
+        break;
+
+      case "status":
+        getTodoStatus(sort);
+        break;
+
+      case "durationTask":
+        getTodoDurationTask(sort);
+        break;
+
+      case "finishDate":
+        getTodoFinishDate(sort);
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header onSort={sort} />
       <Container>
         {todo ? (
           todo.map((td) => (
@@ -44,6 +91,10 @@ export const App: React.FC<Props> = ({ todo, getTodo }) => {
 const mapDispatchToProps = {
   getTodo,
   updateTodo,
+  getTodoAuthor,
+  getTodoStatus,
+  getTodoDurationTask,
+  getTodoFinishDate,
 };
 
 const mapStateToProps = (state: RootState) => ({

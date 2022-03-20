@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Todo: React.FC<Props> = ({ todo, onChangeTodo }) => {
-  const checkTime: boolean = new Date(String(todo.durationTask)) <= new Date();
+  const checkTime: boolean = new Date(String(todo.durationTask)) >= new Date();
   const style: any = {};
   if (checkTime) style.background = "#FFF4F4";
 
@@ -28,7 +28,7 @@ const Todo: React.FC<Props> = ({ todo, onChangeTodo }) => {
           <BaseSelect
             style={todo.status === "Выполнена" ? { background: "#91E0D6" } : {}}
             disabled={todo.status === "Выполнена" ? true : false}
-            onChange={(status) => onChangeTodo(todo._id, null, status)}
+            onChange={(status) => onChangeTodo(todo._id, todo.durationTask, status)}
             items={[
               String(todo.status),
               "Добавлена",
@@ -40,7 +40,7 @@ const Todo: React.FC<Props> = ({ todo, onChangeTodo }) => {
           <div className="d-sm-flex">
             <BaseSelectDate
               disabled={todo.status === "Выполнена" ? true : false}
-              onChange={(e) => onChangeTodo(todo._id, e.target.value)}
+              onChange={(e) => onChangeTodo(todo._id, e.target.value, todo.status)}
               value={String(todo.durationTask)}
               title={"Срок выполнения"}
             />
