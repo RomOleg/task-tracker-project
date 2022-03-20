@@ -1,39 +1,59 @@
 import React from "react";
-import { Card, Form } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { ITodo } from "../types/todo";
 import { BaseSelect } from "./BaseSelect";
 import { BaseSelectDate } from "./BaseSelectDate";
-
+import "../styles/styles.css";
 interface Props {
   todo: ITodo;
+  onChangeTodo: (
+    _id: string | undefined,
+    durationTask?: string | null | undefined,
+    status?: string | null | undefined
+  ) => void;
 }
 
-export const ToDo: React.FC<Props> = ({ todo }) => {
+const Todo: React.FC<Props> = ({ todo, onChangeTodo }) => {
+  const checkTime: boolean = new Date(String(todo.durationTask)) <= new Date();
+  const style: any = {};
+  if (checkTime) style.background = "#FFF4F4";
+
   return (
-    <Card>
-      <Card.Body className="flex">
+    <Card className="time-over mt-3" style={style}>
+      <Card.Body className="flex time-over">
+        <p className="card-text">Author: {todo.author}</p>
         <Card.Title>{todo.name}</Card.Title>
         <Card.Text>{todo.description}</Card.Text>
-        <Card.Body className="d-sm-flex justify-content-sm-between">
+        <div className="d-sm-flex justify-content-sm-between">
           <BaseSelect
-            onChange={() => console.log("3")}
-            items={["top-st11111art", "top-center"]}
+            style={todo.status === "Выполнена" ? { background: "#91E0D6" } : {}}
+            disabled={todo.status === "Выполнена" ? true : false}
+            onChange={(status) => onChangeTodo(todo._id, null, status)}
+            items={[
+              String(todo.status),
+              "Добавлена",
+              "Выполняется",
+              "Выполнена",
+            ]}
             title={"Статус задачи"}
           />
           <div className="d-sm-flex">
             <BaseSelectDate
-              onChange={() => console.log("1")}
-              value={"2020-12-12"}
+              disabled={todo.status === "Выполнена" ? true : false}
+              onChange={(e) => onChangeTodo(todo._id, e.target.value)}
+              value={String(todo.durationTask)}
               title={"Срок выполнения"}
             />
             <BaseSelectDate
-              onChange={() => console.log("2")}
-              value={"2020-12-12"}
+              disabled={true}
+              value={String(todo.finishDate)}
               title={"Дата выполнения"}
             />
           </div>
-        </Card.Body>
+        </div>
       </Card.Body>
     </Card>
   );
 };
+
+export default Todo;

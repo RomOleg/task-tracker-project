@@ -16,7 +16,7 @@ const schema = new Schema({
       type: String,
   },
   finishDate: {
-    type: Date,
+    type: String,
   },
   status: {
       type: String,

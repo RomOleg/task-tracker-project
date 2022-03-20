@@ -70,9 +70,12 @@ class TodoController {
   async updateStatus(req, res, next) {
     try {
       const { id } = req.params;
-      const { status } = req.query;
+      const { status, durationTask } = req.query;
       const query = { _id: id };
-      const update = { status };
+      const update = {};
+      if (status) update.status = status;
+      if (status === "Выполнена") status.finishDate = new Date().toDateString();
+      if (durationTask) update.durationTask = durationTask;
       const todo = await Todo.updateOne(query, update);
       return res.json(todo);
     } catch (error) {

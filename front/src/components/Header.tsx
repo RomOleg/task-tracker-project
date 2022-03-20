@@ -1,27 +1,28 @@
 import React from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
+import { sortList } from "../consts/consts";
 import { BaseSelect } from "./BaseSelect";
+import CreateTodo from './CreateTodo';
 
-interface Props {}
+interface Props {
+}
 
-export const Header: React.FC<Props> = () => {
-  const [position, setPosition] = React.useState("top-start");
-
-  const a = (e: any) => {
-    setPosition(e.currentTarget.value);
-    console.log(position, e.currentTarget.value);
-  };
+const Header: React.FC<Props> = ({  }) => {
+  const [modalShow, setModalShow] = React.useState<boolean>(false);
 
   return (
     <Navbar bg="light" expand="lg">
       <Container>
         <div className="d-flex align-items-center">
-          <Button variant="success me-3">Create Task</Button>
-          <Navbar.Brand href="#">Sort by</Navbar.Brand>
-          <BaseSelect items={['1', '2']} onChange={() => console.log('1211')} />
+          <Button variant="success me-3"  onClick={() => setModalShow(true)}>Create Task</Button>
+          <Navbar.Brand>Sort by</Navbar.Brand>
+          <BaseSelect items={sortList} onChange={() => console.log('1211')} />
         </div>
         <Button variant="light">LogOut</Button>
       </Container>
+      <CreateTodo show={modalShow} onHide={() => setModalShow(false)} />
     </Navbar>
   );
 };
+
+export default Header;
