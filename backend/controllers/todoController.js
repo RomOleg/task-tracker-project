@@ -36,7 +36,7 @@ class TodoController {
         sort.durationTask = 1;
       }
       if (finishDate) {
-        sort.finishDate = 1;
+        sort.finishDate = -1;
       }
 
       let options = {};

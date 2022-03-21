@@ -35,9 +35,13 @@ export const App: React.FC<Props> = ({
   getTodoDurationTask,
   getTodoFinishDate,
 }) => {
+  
+  const [todos, setTodos] = React.useState<ITodo[]>(todo)
+
   React.useEffect(() => {
     getTodo();
   }, []);
+
 
   const onChangeTodo = (
     _id: string | undefined,
