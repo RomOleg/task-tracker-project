@@ -36,10 +36,12 @@ class TodoController {
         sort.durationTask = 1;
       }
       if (finishDate) {
-        sort.finishDate = -1;
+        sort.finishDate = 1;
       }
 
       let options = {};
+      options.sort = sort;
+      console.log(options);
       if (limit && page) {
         options = {
           page: page || 1,
@@ -47,7 +49,7 @@ class TodoController {
         };
       }
 
-      await Todo.paginate({sort}, options, (err, result) => {
+      await Todo.paginate({}, options, (err, result) => {
         if (err) next(ApiError.badRequest(err.message));
         return res.json(result);
       })
@@ -77,7 +79,7 @@ class TodoController {
       if (status === "Выполнена") update.finishDate = String(new Date().toJSON().split('T')[0]);
       if (durationTask) update.durationTask = durationTask;
       const todo = await Todo.updateOne(query, update);
-      return res.json(todo);
+      return res.json({finishDate: update.finishDate});
     } catch (error) {
       next(ApiError.badRequest(error.message));
     }

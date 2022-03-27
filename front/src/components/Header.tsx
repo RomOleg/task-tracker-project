@@ -1,15 +1,43 @@
 import React from "react";
 import { Button, Container, Navbar } from "react-bootstrap";
+import { connect } from "react-redux";
 import { sortList } from "../consts/consts";
 import { BaseSelect } from "./BaseSelect";
 import CreateTodo from './CreateTodo';
+import { getTodoAuthor, getTodoDurationTask, getTodoFinishDate, getTodoStatus } from '../store/actions/todoActions'
 
 interface Props {
-  onSort: (sort: string) => void
+  getTodoAuthor: (author: string) => void,
+  getTodoStatus: (status: string) => void,
+  getTodoDurationTask: (durationTask: string) => void,
+  getTodoFinishDate: (finishDate: string) => void,
 }
 
-const Header: React.FC<Props> = ({ onSort }) => {
+const Header: React.FC<Props> = ({ getTodoAuthor, getTodoDurationTask, getTodoFinishDate, getTodoStatus }) => {
   const [modalShow, setModalShow] = React.useState<boolean>(false);
+
+  const onSort = (sort: string) => {
+    switch (sort) {
+      case "author":
+        getTodoAuthor(sort);
+        break;
+
+      case "status":
+        getTodoStatus(sort);
+        break;
+
+      case "durationTask":
+        getTodoDurationTask(sort);
+        break;
+
+      case "finishDate":
+        getTodoFinishDate(sort);
+        break;
+
+      default:
+        break;
+    }
+  }
 
   return (
     <Navbar bg="light" expand="lg">
@@ -26,4 +54,11 @@ const Header: React.FC<Props> = ({ onSort }) => {
   );
 };
 
-export default Header;
+const mapDispatchToProps = {
+  getTodoAuthor,
+  getTodoStatus,
+  getTodoDurationTask,
+  getTodoFinishDate,
+};
+
+export default connect(null, mapDispatchToProps)(Header);

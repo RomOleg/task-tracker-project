@@ -7,14 +7,12 @@ import "../styles/styles.css";
 interface Props {
   todo: ITodo;
   onChangeTodo: (
-    _id: string | undefined,
-    durationTask?: string | null | undefined,
-    status?: string | null | undefined
+    _id: string | undefined, durationTask?: string, status?: string
   ) => void;
 }
 
 const Todo: React.FC<Props> = ({ todo, onChangeTodo }) => {
-  const checkTime: boolean = new Date(String(todo.durationTask)) >= new Date();
+  const checkTime: boolean = new Date(String(todo.durationTask)) <= new Date();
   const style: any = {};
   if (checkTime) style.background = "#FFF4F4";
 

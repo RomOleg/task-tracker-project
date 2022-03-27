@@ -1,5 +1,5 @@
 export interface ITodo {
-  _id?: string,
+  _id?: string | undefined,
   author?: string,
   description?: string,
   name?: string,

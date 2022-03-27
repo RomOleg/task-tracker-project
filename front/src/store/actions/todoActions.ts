@@ -1,8 +1,8 @@
-import { AppDispatch } from "./../../../../../debtfriends/src/store/store";
 import { ADD_TODO, DEL_TODO, GET_TODO, UPDATE_TODO } from "../consts";
 import { ITodo } from "../../types/todo";
 import { TodoActions } from "../types";
 import Axios from "../../axios/axios";
+import { AppDispatch } from "../store";
 
 export const addTodo = (todo: ITodo[]) => {
   try {
@@ -32,16 +32,14 @@ export const delTodo = async (todo: ITodo[]) => {
   }
 };
 
-export const updateTodo = async (
-  _id: string | undefined,
-  durationTask?: string | null,
-  status?: string | null
-) => {
+export const updateTodo = (_id: string | undefined, durationTask?: string, status?: string) => {
   try {
-    await Axios.put<ITodo>(
-      `api/todo/${_id}?status=${status}&durationTask=${durationTask}`
-    );
-    getTodo();
+    return async (dispatch: AppDispatch) => {
+      const data = await Axios.put<ITodo>(
+        `api/todo/${_id}?status=${status}&durationTask=${durationTask}`
+      );
+      dispatch<TodoActions>({type: UPDATE_TODO, payload: [{_id, durationTask, status, finishDate: data.data.finishDate}]});
+    }
   } catch (error) {
     console.log(error);
   }

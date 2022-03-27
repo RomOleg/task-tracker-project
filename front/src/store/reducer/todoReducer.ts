@@ -14,7 +14,7 @@ const todoReducer = (state = initialState, action: TodoActions) => {
     case GET_TODO:
       return action.payload;
       case UPDATE_TODO:
-        return [...state.map(todo => todo._id === action.payload[0]._id && action.payload[0])]
+        return [...state.map(todo => todo._id === action.payload[0]._id ? action.payload[0] : todo)]
     default:
       return state;
   }
